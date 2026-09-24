@@ -46,28 +46,38 @@ def load_data(args):
     return dataset, class_num
 
 
-class LogisticRegression(torch.nn.Module):
+class FedRepMNISTModel(torch.nn.Module):
     def __init__(self, input_dim, output_dim):
-        super(LogisticRegression, self).__init__()
-        self.linear = torch.nn.Linear(input_dim, output_dim)
+        super().__init__()
+        self.flatten = torch.nn.Flatten()
+        self.linear_1 = torch.nn.Linear(input_dim, 128)
+        self.relu = torch.nn.ReLU()
+        self.linear_2 = torch.nn.Linear(128, output_dim)
 
     def forward(self, x):
-        outputs = torch.sigmoid(self.linear(x))
-        return outputs
+        representation = self.relu(self.linear_1(self.flatten(x)))
+        return self.linear_2(representation)
+
+
+def create_model(args, output_dim):
+    """Build the model selected by YAML, with an explicit MLP research option."""
+    model_name = str(getattr(args, "model", "mlp")).strip().lower()
+    if model_name in {"mlp", "fedrep_mlp"}:
+        return FedRepMNISTModel(28 * 28, output_dim)
+    return fedml.model.create(args, output_dim)
 
 
 if __name__ == "__main__":
     # init FedML framework
     args = fedml.init()
-
     # init device
     device = fedml.device.get_device(args)
 
     # load data
     dataset, output_dim = load_data(args)
 
-    # load model (the size of MNIST image is 28 x 28)
-    model = LogisticRegression(28 * 28, output_dim)
+    # Build the model selected in the YAML (the custom MLP is opt-in).
+    model = create_model(args, output_dim)
 
     # start training
     fedml_runner = FedMLRunner(args, device, dataset, model)

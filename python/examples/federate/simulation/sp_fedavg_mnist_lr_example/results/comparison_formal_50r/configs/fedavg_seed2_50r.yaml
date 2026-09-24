@@ -1,0 +1,64 @@
+common_args:
+  training_type: simulation
+  random_seed: 2
+  config_version: release
+  mlops_api_key: ''
+  mlops_project_name: sp_fedrep_dmcfe_test
+  mlops_run_name: fedavg_seed2_50r
+  backend: sp
+  experiment_run_id: fedavg_seed2_50r
+  experiment_method: FedAvg
+  experiment_matrix_id: aa8854cd2e503503
+  experiment_config_hash: 5f88657edcac7b0e9a53a0a3b541085b9a0e921d0e96a804dc807cbe13c58e79
+data_args:
+  dataset: mnist
+  data_cache_dir: ~/.cache/fedml_data
+  partition_method: hetero
+  partition_alpha: 0.5
+model_args:
+  model: cnn
+train_args:
+  federated_optimizer: FedAvg
+  fedrep_personalized_layers:
+  - linear_2
+  fedrep_head_epochs: 1
+  fedrep_representation_epochs: 1
+  enable_dmcfe: false
+  dmcfe_aggregation_mode: optimized
+  dmcfe_backend: chunked_reference
+  dmcfe_modulus_bits: 256
+  dmcfe_scale: 16384
+  dmcfe_clip_bound: 8.0
+  dmcfe_chunk_size: 65536
+  dmcfe_enable_weight_signatures: true
+  dmcfe_dropout_before_encryption_ids: []
+  dmcfe_dropout_before_recovery_ids: []
+  dmcfe_recovery_threshold: 2
+  dmcfe_validation_dim: 7850
+  run_dmcfe_smoke_tests: false
+  client_id_list: '[]'
+  client_num_in_total: 1000
+  client_num_per_round: 3
+  comm_round: 50
+  epochs: 1
+  batch_size: 10
+  client_optimizer: sgd
+  learning_rate: 0.03
+  weight_decay: 0.001
+  privacy_aggregation: null
+  experiment_result_file: D:\git\FedML\python\examples\federate\simulation\sp_fedavg_mnist_lr_example\results\comparison_formal_50r\fedavg_seed2_50r.csv
+validation_args:
+  frequency_of_the_test: 1
+device_args:
+  using_gpu: true
+  gpu_id: 0
+comm_args:
+  backend: sp
+tracking_args:
+  enable_tracking: false
+  enable_wandb: false
+  wandb_key: ''
+  wandb_entity: fedml-ai
+  wandb_project: simulation
+  run_name: fedavg_seed2_50r
+  using_mlops: false

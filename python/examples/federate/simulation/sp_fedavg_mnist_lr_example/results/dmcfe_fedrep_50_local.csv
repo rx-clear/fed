@@ -1,0 +1,3 @@
+round,train_acc,train_loss,test_acc,test_loss,dmcfe_fedavg_max_error,dmcfe_fedavg_mean_error,dmcfe_fedrep_max_error,dmcfe_fedrep_mean_error,dropout_rate,online_clients,online_client_ids,recovery_threshold,coded_communication_rounds,secagg_baseline_rounds,recovery_error,dmcfe_weight_signatures_verified
+0,0.2756713803840166,2.203991469050906,0.2771672771672772,2.2067349103101637,,,3.0227465686039068e-05,1.0596337233437225e-05,0.997,3,"993,859,298",3,1,,3.0227465686039068e-05,3
+49,0.7814446030098599,0.8596767732919709,0.7851037851037851,0.852354695309511,,,3.0220671760616824e-05,1.0280211427016184e-05,0.997,3,"318,794,718",3,1,,3.0220671760616824e-05,3

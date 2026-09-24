@@ -2,6 +2,7 @@
 from ..constants import (
     FedML_FEDERATED_OPTIMIZER_BASE_FRAMEWORK,
     FedML_FEDERATED_OPTIMIZER_FEDAVG,
+    FedML_FEDERATED_OPTIMIZER_FEDREP,
     FedML_FEDERATED_OPTIMIZER_FEDOPT,
     FedML_FEDERATED_OPTIMIZER_FEDOPT_SEQ,
     FedML_FEDERATED_OPTIMIZER_FEDNOVA,
@@ -28,6 +29,7 @@ class SimulatorSingleProcess:
     def __init__(self, args, device, dataset, model, client_trainer=None, server_aggregator=None):
         from .sp.classical_vertical_fl.vfl_api import VflFedAvgAPI
         from .sp.fedavg import FedAvgAPI
+        from .sp.fedrep import FedRepAPI
         from .sp.fedprox.fedprox_trainer import FedProxTrainer
         from .sp.fednova.fednova_trainer import FedNovaTrainer
         from .sp.feddyn.feddyn_trainer import FedDynTrainer
@@ -39,6 +41,8 @@ class SimulatorSingleProcess:
 
         if args.federated_optimizer == FedML_FEDERATED_OPTIMIZER_FEDAVG:
             self.fl_trainer = FedAvgAPI(args, device, dataset, model)
+        elif args.federated_optimizer == FedML_FEDERATED_OPTIMIZER_FEDREP:
+            self.fl_trainer = FedRepAPI(args, device, dataset, model)
         elif args.federated_optimizer == FedML_FEDERATED_OPTIMIZER_FEDOPT:
             self.fl_trainer = FedOptAPI(args, device, dataset, model)
         elif args.federated_optimizer == FedML_FEDERATED_OPTIMIZER_FEDNOVA:

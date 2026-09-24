@@ -1,0 +1,4 @@
+method,seed,backend,backend_secure,rounds,final_test_acc,final_test_loss,mean_test_acc,best_test_acc,first_round_at_target,accuracy_target,claim_boundary
+FedAvg,0,plaintext,False,1,0.11708045041378375,2.9263233840505976,0.11708045041378375,0.11708045041378375,,0.75,algorithmic_baseline
+FedRep,0,plaintext,False,1,0.15737349070682405,2.5522637408893347,0.15737349070682405,0.15737349070682405,,0.75,algorithmic_baseline
+FedRep+FixedPointReference,0,chunked-reference,False,1,0.15737349070682405,2.5521830394914624,0.15737349070682405,0.15737349070682405,,0.75,fixed_point_reference_only

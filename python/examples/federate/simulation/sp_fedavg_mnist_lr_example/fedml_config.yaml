@@ -2,9 +2,12 @@ common_args:
   training_type: "simulation"
   random_seed: 0
   config_version: "release"
-  mlops_api_key: f5b88f5dca344e6faf17809139b89c48
-  mlops_project_name: sp_fedavg_test
-  mlops_run_name: fedml_torch_fedavg_mnist_lr_mlsys
+  # Keep credentials out of source control. Provide them only for an explicit
+  # remote run through the environment/launcher configuration.
+  mlops_api_key: ""
+  mlops_project_name: sp_fedrep_dmcfe_test
+  mlops_run_name: fedml_torch_fedrep_mnist_cnn_dmcfe
+  backend: "sp"
 
 data_args:
   dataset: "mnist"
@@ -13,14 +16,44 @@ data_args:
   partition_alpha: 0.5
 
 model_args:
-  model: "lr"
+  model: "cnn"
 
 train_args:
-  federated_optimizer: "FedAvg"
+  federated_optimizer: "FedRep"
+  # Keep the final classifier local; only the representation is aggregated.
+  fedrep_personalized_layers:
+    - "linear_2"
+  fedrep_head_epochs: 1
+  fedrep_representation_epochs: 1
+  # ============================
+  # DMCFE experiment switch
+  # ============================
+  enable_dmcfe: true
+  # Full shared-state fixed-point aggregation. Set to "smoke" to retain the
+  # legacy prefix-only correctness check.
+  dmcfe_aggregation_mode: "optimized"
+  dmcfe_backend: "chunked_reference"
+  # Set to toy_mcfe only for small protocol correctness checks.
+  dmcfe_modulus_bits: 256
+  dmcfe_scale: 16384
+  dmcfe_clip_bound: 8.0
+  dmcfe_chunk_size: 65536
+  # Paper Round-0 protection: authenticate each client's sample weight.
+  dmcfe_enable_weight_signatures: true
+  # Optional protocol-failure injection for testing Round-3 recovery.
+  # Keep empty for normal operation; IDs refer to sampled global client IDs.
+  dmcfe_dropout_before_encryption_ids: []
+  dmcfe_dropout_before_recovery_ids: []
+  dmcfe_recovery_threshold: 2
+  # Number of coordinates checked by the real quantized DMCFE smoke test.
+  # The FedRep API clamps this to the shared representation dimension.
+  dmcfe_validation_dim: 7850
+  # Run DMCFE smoke tests during development
+  run_dmcfe_smoke_tests: false
   client_id_list: "[]"
-  client_num_in_total: 1
-  client_num_per_round: 1
-  comm_round: 3 # 3 is for quick GitHub sanity check. please change this to your own hyper-parameters (e.g., 200)
+  client_num_in_total: 1000
+  client_num_per_round: 3
+  comm_round: 50
   epochs: 1
   batch_size: 10
   client_optimizer: sgd
@@ -31,7 +64,7 @@ validation_args:
   frequency_of_the_test: 1
 
 device_args:
-  using_gpu: false
+  using_gpu: true
   gpu_id: 0
 
 comm_args:
@@ -41,8 +74,8 @@ tracking_args:
   enable_tracking: false
   # When running on MLOps platform(open.fedml.ai), the default log path is at ~/.fedml/fedml-client/fedml/logs/ and ~/.fedml/fedml-server/fedml/logs/
   enable_wandb: false
-  wandb_key: ee0b5f53d949c84cee7decbe7a629e63fb2f8408
+  wandb_key: ""
   wandb_entity: fedml-ai
   wandb_project: simulation
-  run_name: fedml_torch_fedavg_mnist_lr
-  using_mlops: true
+  run_name: fedml_torch_fedrep_mnist_cnn_dmcfe
+  using_mlops: false

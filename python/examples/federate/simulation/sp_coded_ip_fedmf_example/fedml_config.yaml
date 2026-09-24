@@ -1,0 +1,11 @@
+common_args:
+  training_type: "simulation"
+  random_seed: 7
+  backend: "sp"
+
+train_args:
+  client_num_in_total: 8
+  recovery_threshold: 5
+  dropout: 2
+  vector_dimension: 16
+

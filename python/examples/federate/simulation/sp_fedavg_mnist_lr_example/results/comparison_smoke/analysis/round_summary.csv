@@ -1,0 +1,4 @@
+method,round,n_seeds,test_acc_mean,test_acc_sd,test_loss_mean,test_loss_sd
+FedAvg,0,1,0.11708045041378375,,2.9263233840505976,
+FedRep,0,1,0.15737349070682405,,2.5522637408893347,
+FedRep+FixedPointReference,0,1,0.15737349070682405,,2.5521830394914624,

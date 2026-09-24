@@ -1,0 +1,3 @@
+method,baseline,n_paired_seeds,mean_delta_final_test_acc,sd_delta_final_test_acc,mean_delta_final_test_loss,sd_delta_final_test_loss
+FedRep,FedAvg,1,0.0402930402930403,,-0.37405964316126283,
+FedRep+FixedPointReference,FedAvg,1,0.0402930402930403,,-0.37414034455913514,

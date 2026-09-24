@@ -1,0 +1,2 @@
+round,train_acc,train_loss,test_acc,test_loss,dmcfe_fedavg_max_error,dmcfe_fedavg_mean_error,dmcfe_fedrep_max_error,dmcfe_fedrep_mean_error,dropout_rate,online_clients,online_client_ids,recovery_threshold,coded_communication_rounds,secagg_baseline_rounds,recovery_error,dmcfe_weight_signatures_verified
+0,0.10197197716658017,2.4356729955410996,0.10297110297110297,2.4322190165192215,,,3.0517578125e-05,1.4263791854318697e-05,0.999,1,993,1,1,,3.0517578125e-05,1
